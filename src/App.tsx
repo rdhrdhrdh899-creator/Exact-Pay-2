@@ -23,6 +23,23 @@ export default function App() {
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [isValid, setIsValid] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [scrollProgress, setScrollProgress] = useState(0);
+
+  // Track scroll progress to update progress line at top of page
+  useEffect(() => {
+    const handleScroll = () => {
+      const totalHeight = document.documentElement.scrollHeight - window.innerHeight;
+      if (totalHeight > 0) {
+        const progress = (window.scrollY / totalHeight) * 100;
+        setScrollProgress(progress);
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    handleScroll();
+
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   // Validate the form parameters reactively as they type
   useEffect(() => {
@@ -79,6 +96,14 @@ export default function App() {
   return (
     <div className="min-h-screen bg-slate-50 dark:bg-slate-950 text-slate-800 dark:text-slate-200 font-sans transition-colors duration-300">
       
+      {/* Scroll Progress Line */}
+      <div className="fixed top-0 left-0 w-full h-1 z-[100] pointer-events-none">
+        <div 
+          className="h-full bg-gradient-to-r from-emerald-500 to-teal-600 transition-all duration-75 ease-out" 
+          style={{ width: `${scrollProgress}%` }}
+        />
+      </div>
+
       {/* Dynamic Ambient Gradient glow for Hero background */}
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-7xl h-[550px] bg-radial from-emerald-500/10 via-teal-500/5 to-transparent pointer-events-none blur-3xl z-0" />
 
