@@ -93,4 +93,100 @@ html {
   animation: scaleUp 0.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
+/* Navbar Logo Interactive animations */
+@keyframes logo-brackets {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(0.94);
+  }
+}
+
+@keyframes logo-center {
+  0%, 100% {
+    transform: scale(1) translate(0, 0);
+  }
+  50% {
+    transform: scale(1.08) translate(-0.5px, -0.5px);
+  }
+}
+
+@keyframes logo-scanner-line {
+  0% {
+    transform: translateY(12px);
+    opacity: 0;
+  }
+  15% {
+    opacity: 1;
+  }
+  85% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(88px);
+    opacity: 0;
+  }
+}
+
+@keyframes logo-dot {
+  0%, 100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.6;
+    transform: scale(0.85);
+  }
+}
+
+.logo-brackets-group {
+  transform-origin: 50px 50px;
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.group:hover .logo-brackets-group {
+  animation: logo-brackets 2s ease-in-out infinite;
+}
+
+.logo-center-group {
+  transform-origin: 50px 50px;
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.group:hover .logo-center-group {
+  animation: logo-center 2s ease-in-out infinite;
+}
+
+.logo-dot-tl {
+  transform-origin: 28px 28px;
+  transition: all 0.3s ease;
+}
+.group:hover .logo-dot-tl {
+  animation: logo-dot 1.2s ease-in-out infinite;
+}
+
+.logo-dot-tr {
+  transform-origin: 72px 28px;
+  transition: all 0.3s ease;
+}
+.group:hover .logo-dot-tr {
+  animation: logo-dot 1.2s ease-in-out infinite 0.3s;
+}
+
+.logo-dot-bl {
+  transform-origin: 28px 72px;
+  transition: all 0.3s ease;
+}
+.group:hover .logo-dot-bl {
+  animation: logo-dot 1.2s ease-in-out infinite 0.6s;
+}
+
+.logo-scanner-line {
+  opacity: 0;
+  transition: all 0.3s ease;
+}
+.group:hover .logo-scanner-line {
+  animation: logo-scanner-line 2.5s cubic-bezier(0.25, 1, 0.5, 1) infinite;
+}
+
+
 

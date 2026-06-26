@@ -166,35 +166,44 @@ export default function App() {
                 strokeLinejoin="round"
               >
                 {/* QR-style Outer frame with elegant gaps */}
-                <path d="M 32,12 H 18 A 6,6 0 0,0 12,18 V 32" />
-                <path d="M 68,12 H 82 A 6,6 0 0,1 88,18 V 32" />
-                <path d="M 12,68 V 82 A 6,6 0 0,0 18,88 H 32" />
-                <path d="M 88,68 V 82 A 6,6 0 0,1 82,88 H 68" />
+                <g className="logo-brackets-group">
+                  <path d="M 32,12 H 18 A 6,6 0 0,0 12,18 V 32" />
+                  <path d="M 68,12 H 82 A 6,6 0 0,1 88,18 V 32" />
+                  <path d="M 12,68 V 82 A 6,6 0 0,0 18,88 H 32" />
+                  <path d="M 88,68 V 82 A 6,6 0 0,1 82,88 H 68" />
+                </g>
 
-                {/* Finder Patterns (Top-Left, Top-Right, Bottom-Left) */}
-                <rect x="20" y="20" width="16" height="16" rx="3.5" strokeWidth="5" />
-                <rect x="25" y="25" width="6" height="6" rx="1" fill="currentColor" stroke="none" />
-                
-                <rect x="64" y="20" width="16" height="16" rx="3.5" strokeWidth="5" />
-                <rect x="69" y="25" width="6" height="6" rx="1" fill="currentColor" stroke="none" />
+                {/* Finder Patterns with interactive pulsating inner dots */}
+                <g>
+                  <rect x="20" y="20" width="16" height="16" rx="3.5" strokeWidth="5" />
+                  <rect x="25" y="25" width="6" height="6" rx="1" fill="currentColor" stroke="none" className="logo-dot-tl" />
+                  
+                  <rect x="64" y="20" width="16" height="16" rx="3.5" strokeWidth="5" />
+                  <rect x="69" y="25" width="6" height="6" rx="1" fill="currentColor" stroke="none" className="logo-dot-tr" />
 
-                <rect x="20" y="64" width="16" height="16" rx="3.5" strokeWidth="5" />
-                <rect x="25" y="69" width="6" height="6" rx="1" fill="currentColor" stroke="none" />
+                  <rect x="20" y="64" width="16" height="16" rx="3.5" strokeWidth="5" />
+                  <rect x="25" y="69" width="6" height="6" rx="1" fill="currentColor" stroke="none" className="logo-dot-bl" />
+                </g>
+
+                {/* Sweeping Laser Line inside Logo SVG */}
+                <line x1="12" y1="0" x2="88" y2="0" className="logo-scanner-line stroke-emerald-500 dark:stroke-emerald-400" strokeWidth="4.5" />
 
                 {/* Center Badge with Checkmark + Upward Arrow (The Exact Pay Emblem) */}
-                <circle cx="50" cy="50" r="17" className="stroke-teal-600 dark:stroke-teal-400 fill-white dark:fill-slate-950" strokeWidth="4.5" />
-                {/* The Checkmark that extends into an Arrow Head */}
-                <path 
-                  d="M 42,50 L 47,55 L 56,43" 
-                  className="stroke-emerald-500 dark:stroke-emerald-400" 
-                  strokeWidth="5" 
-                />
-                {/* Arrow-head tip on the right side of the checkmark */}
-                <path 
-                  d="M 50,43 H 56 V 49" 
-                  className="stroke-emerald-500 dark:stroke-emerald-400" 
-                  strokeWidth="4.5" 
-                />
+                <g className="logo-center-group">
+                  <circle cx="50" cy="50" r="17" className="stroke-teal-600 dark:stroke-teal-400 fill-white dark:fill-slate-950" strokeWidth="4.5" />
+                  {/* The Checkmark that extends into an Arrow Head */}
+                  <path 
+                    d="M 42,50 L 47,55 L 56,43" 
+                    className="stroke-emerald-500 dark:stroke-emerald-400" 
+                    strokeWidth="5" 
+                  />
+                  {/* Arrow-head tip on the right side of the checkmark */}
+                  <path 
+                    d="M 50,43 H 56 V 49" 
+                    className="stroke-emerald-500 dark:stroke-emerald-400" 
+                    strokeWidth="4.5" 
+                  />
+                </g>
               </svg>
             </div>
             
