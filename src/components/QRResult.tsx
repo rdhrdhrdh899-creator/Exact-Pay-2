@@ -1,0 +1,298 @@
+import { useEffect, useState } from 'react';
+import { QRCodeToDataURLOptions } from 'qrcode';
+import QRCode from 'qrcode';
+import { PaymentData, TabType } from '../types';
+import { generateUpiUrl, qrThemes, downloadStyledQR } from '../utils';
+import { Copy, Check, Download, Share2, Palette, Landmark, ShieldCheck } from 'lucide-react';
+
+interface QRResultProps {
+  activeTab: TabType;
+  formData: PaymentData;
+  isValid: boolean;
+}
+
+export default function QRResult({ activeTab, formData, isValid }: QRResultProps) {
+  const [selectedThemeId, setSelectedThemeId] = useState('emerald');
+  const [qrBase64, setQrBase64] = useState<string>('');
+  const [copied, setCopied] = useState(false);
+  const [isDownloading, setIsDownloading] = useState(false);
+  const [shareSuccess, setShareSuccess] = useState(false);
+
+  const upiUrl = generateUpiUrl(activeTab, formData);
+  const activeTheme = qrThemes.find((t) => t.id === selectedThemeId) || qrThemes[0];
+
+  // Re-generate raw QR code image when parameters change
+  useEffect(() => {
+    if (!isValid) {
+      setQrBase64('');
+      return;
+    }
+
+    const options: QRCodeToDataURLOptions = {
+      margin: 1,
+      width: 400,
+      color: {
+        dark: '#0f172a', // dark charcoal
+        light: '#ffffff',
+      },
+    };
+
+    QRCode.toDataURL(upiUrl, options)
+      .then((url) => {
+        setQrBase64(url);
+      })
+      .catch((err) => {
+        console.error('Error generating QR base64 preview', err);
+      });
+  }, [upiUrl, isValid]);
+
+  const handleCopyLink = async () => {
+    try {
+      await navigator.clipboard.writeText(upiUrl);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    } catch (err) {
+      console.error('Failed to copy text', err);
+    }
+  };
+
+  const handleDownload = async () => {
+    if (!isValid) return;
+    setIsDownloading(true);
+    try {
+      await downloadStyledQR(activeTab, formData, selectedThemeId);
+    } catch (err) {
+      console.error('Download failed', err);
+    } finally {
+      setIsDownloading(false);
+    }
+  };
+
+  const handleShare = async () => {
+    if (!isValid) return;
+    
+    // Fallback: If Web Share API is available, use it. Otherwise, fallback to copying link.
+    if (navigator.share) {
+      try {
+        await navigator.share({
+          title: 'Pay via Exact Pay',
+          text: `Scan or click this link to pay ${formData.payeeName || 'via UPI'}:\n\n${upiUrl}`,
+          url: window.location.origin,
+        });
+      } catch (err) {
+        // Log unless user aborted
+        if ((err as Error).name !== 'AbortError') {
+          console.error('Error sharing link', err);
+        }
+      }
+    } else {
+      // Fallback: copy link and show small toast/indicator
+      await handleCopyLink();
+      setShareSuccess(true);
+      setTimeout(() => setShareSuccess(false), 2000);
+    }
+  };
+
+  // Human-readable amount formatting
+  const getFormattedAmount = () => {
+    if (!formData.amount) return null;
+    const num = parseFloat(formData.amount);
+    return !isNaN(num)
+      ? `₹${num.toLocaleString('en-IN', { minimumFractionDigits: 2 })}`
+      : `₹${formData.amount}`;
+  };
+
+  const formattedAmount = getFormattedAmount();
+
+  return (
+    <div id="qr-result-container" className="sticky top-6 flex flex-col gap-6">
+      
+      {/* Dynamic Styled QR Card Preview */}
+      <div
+        id="live-qr-card-preview"
+        className={`relative overflow-hidden rounded-3xl p-6 md:p-8 flex flex-col items-center justify-between text-center transition-all duration-500 shadow-2xl ${
+          !isValid ? 'opacity-40 select-none pointer-events-none' : ''
+        } ${
+          activeTheme.id === 'minimal'
+            ? 'bg-slate-50 dark:bg-slate-900 border-2 border-slate-200 dark:border-slate-800 text-slate-800 dark:text-white'
+            : `bg-gradient-to-b ${activeTheme.bgGradient} text-white`
+        }`}
+      >
+        {/* Card Header branding */}
+        <div className="w-full flex items-center justify-between mb-6">
+          <div className="flex items-center gap-1.5">
+            <span className={`w-2.5 h-2.5 rounded-full ${activeTheme.id === 'minimal' ? 'bg-emerald-500' : 'bg-white animate-pulse'}`} />
+            <span className="font-display font-bold text-base tracking-tight">Exact Pay</span>
+          </div>
+          <div className="flex items-center gap-1 text-[10px] font-bold tracking-wider uppercase opacity-75">
+            <ShieldCheck className="w-3.5 h-3.5" />
+            <span>Secure UPI</span>
+          </div>
+        </div>
+
+        {/* The Scannable QR Frame */}
+        <div className="relative w-full max-w-[260px] aspect-square bg-white rounded-2xl p-4 shadow-lg flex items-center justify-center transition-all duration-300 hover:scale-[1.02]">
+          {isValid && qrBase64 ? (
+            <img
+              src={qrBase64}
+              alt="Live UPI QR Code"
+              className="w-full h-full object-contain pointer-events-none select-none"
+              referrerPolicy="no-referrer"
+            />
+          ) : (
+            <div className="flex flex-col items-center justify-center text-slate-300 dark:text-slate-200 gap-3 text-center px-4">
+              <div className="w-16 h-16 rounded-full bg-slate-50 dark:bg-slate-900 flex items-center justify-center animate-pulse">
+                <Landmark className="w-7 h-7 text-slate-300 dark:text-slate-700" />
+              </div>
+              <p className="text-xs font-semibold text-slate-400 dark:text-slate-600">
+                Awaiting valid payment credentials...
+              </p>
+            </div>
+          )}
+        </div>
+
+        {/* Customer / Transaction Details */}
+        <div className="mt-6 w-full flex flex-col items-center gap-1">
+          {isValid ? (
+            <>
+              <p className="text-lg font-bold tracking-tight line-clamp-1">
+                {formData.payeeName.trim() || 'UPI Payment'}
+              </p>
+              
+              <p className="text-xs opacity-80 font-mono line-clamp-1 max-w-xs">
+                {activeTab === 'upi' ? (
+                  formData.upiId.trim()
+                ) : (
+                  `A/C: ${formData.accountNo?.trim().slice(-4).padStart(formData.accountNo?.trim().length || 8, '•')}`
+                )}
+              </p>
+
+              {formattedAmount && (
+                <p className="text-3xl font-display font-extrabold mt-3 tracking-tight">
+                  {formattedAmount}
+                </p>
+              )}
+
+              {formData.note && (
+                <p className="text-xs italic opacity-75 mt-1 max-w-[240px] line-clamp-1">
+                  "{formData.note.trim()}"
+                </p>
+              )}
+
+              {/* Dynamic Branding bottom banner */}
+              <div className="mt-6 text-[10px] font-bold tracking-widest opacity-50 select-none uppercase">
+                by UPIpe
+              </div>
+            </>
+          ) : (
+            <div className="py-4 text-xs opacity-60">
+              Please enter your UPI ID or Bank Account details to generate your scannable payment badge.
+            </div>
+          )}
+        </div>
+      </div>
+
+      {/* Theme Picker - Custom Visual Gradients */}
+      {isValid && (
+        <div id="theme-selector-container" className="bg-slate-50 dark:bg-slate-900/40 border border-slate-100 dark:border-slate-800/60 p-5 rounded-2xl transition-colors">
+          <div className="flex items-center gap-2 text-slate-400 dark:text-slate-500 mb-4">
+            <Palette className="w-4 h-4 text-emerald-500" />
+            <span className="text-xs font-bold uppercase tracking-wider">Customize Badge Theme</span>
+          </div>
+          <div className="flex flex-wrap gap-3">
+            {qrThemes.map((theme) => {
+              const isSelected = selectedThemeId === theme.id;
+              return (
+                <button
+                  key={theme.id}
+                  id={`theme-btn-${theme.id}`}
+                  onClick={() => setSelectedThemeId(theme.id)}
+                  title={theme.name}
+                  className={`w-9 h-9 rounded-full cursor-pointer relative flex items-center justify-center transition-all duration-300 hover:scale-110 active:scale-95 focus:outline-none ${
+                    theme.id === 'minimal'
+                      ? 'bg-slate-200 border border-slate-400 dark:bg-slate-800'
+                      : `bg-gradient-to-br ${theme.bgGradient}`
+                  } ${isSelected ? 'ring-2 ring-emerald-500 ring-offset-2 dark:ring-offset-slate-950 scale-105' : 'opacity-70 hover:opacity-100'}`}
+                >
+                  {isSelected && (
+                    <span className={`w-1.5 h-1.5 rounded-full ${theme.id === 'minimal' ? 'bg-emerald-600' : 'bg-white'}`} />
+                  )}
+                </button>
+              );
+            })}
+          </div>
+        </div>
+      )}
+
+      {/* Primary Action Buttons */}
+      <div id="badge-actions-grid" className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+        <button
+          id="btn-copy-link"
+          onClick={handleCopyLink}
+          disabled={!isValid}
+          className={`flex items-center justify-center gap-2 py-3.5 px-4 rounded-xl font-semibold text-sm transition-all duration-300 shadow-sm cursor-pointer border ${
+            !isValid
+              ? 'bg-slate-100 dark:bg-slate-900 border-slate-200 dark:border-slate-800 text-slate-400 cursor-not-allowed shadow-none'
+              : copied
+              ? 'bg-emerald-500 border-emerald-500 text-white shadow-emerald-200/50'
+              : 'bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-800 text-slate-800 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-800/80'
+          }`}
+        >
+          {copied ? (
+            <>
+              <Check className="w-4 h-4 animate-scaleUp" />
+              <span>Copied!</span>
+            </>
+          ) : (
+            <>
+              <Copy className="w-4 h-4" />
+              <span>Copy Link</span>
+            </>
+          )}
+        </button>
+
+        <button
+          id="btn-download-qr"
+          onClick={handleDownload}
+          disabled={!isValid || isDownloading}
+          className={`flex items-center justify-center gap-2 py-3.5 px-4 rounded-xl font-semibold text-sm transition-all duration-300 shadow-sm cursor-pointer ${
+            !isValid
+              ? 'bg-slate-100 dark:bg-slate-900 text-slate-400 cursor-not-allowed shadow-none'
+              : isDownloading
+              ? 'bg-emerald-600 text-white animate-pulse'
+              : 'bg-emerald-500 text-white hover:bg-emerald-600 hover:shadow-emerald-500/20 shadow-md'
+          }`}
+        >
+          <Download className={`w-4 h-4 ${isDownloading ? 'animate-bounce' : ''}`} />
+          <span>{isDownloading ? 'Saving...' : 'Download QR'}</span>
+        </button>
+
+        <button
+          id="btn-share-badge"
+          onClick={handleShare}
+          disabled={!isValid}
+          className={`flex items-center justify-center gap-2 py-3.5 px-4 rounded-xl font-semibold text-sm transition-all duration-300 shadow-sm cursor-pointer border ${
+            !isValid
+              ? 'bg-slate-100 dark:bg-slate-900 border-slate-200 dark:border-slate-800 text-slate-400 cursor-not-allowed shadow-none'
+              : shareSuccess
+              ? 'bg-emerald-500 border-emerald-500 text-white shadow-emerald-200/50'
+              : 'bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-800 text-slate-800 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-800/80'
+          }`}
+        >
+          <Share2 className="w-4 h-4" />
+          <span>{shareSuccess ? 'Copied URL!' : 'Share'}</span>
+        </button>
+      </div>
+
+      {/* Raw clickable URI for developers/debug */}
+      {isValid && (
+        <div id="raw-upi-preview" className="text-center">
+          <p className="text-[10px] text-slate-400 dark:text-slate-500 max-w-sm mx-auto line-clamp-1 font-mono hover:line-clamp-none transition-all duration-300">
+            {upiUrl}
+          </p>
+        </div>
+      )}
+
+    </div>
+  );
+}

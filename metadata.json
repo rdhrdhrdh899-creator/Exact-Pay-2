@@ -1,0 +1,6 @@
+{
+  "name": "Exact Pay",
+  "description": "Free UPI QR code & payment link generator. Create scannable UPI QR codes and shareable payment links instantly.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
