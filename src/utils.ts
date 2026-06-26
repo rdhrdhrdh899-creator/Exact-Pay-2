@@ -205,6 +205,47 @@ export async function downloadStyledQR(
   ctx.shadowOffsetX = 0;
   ctx.shadowOffsetY = 0;
 
+  // Draw physiological curved corner brackets (Red, Blue, Yellow, and website theme Emerald)
+  const bracketOffset = 14;    // 14px outward offset for clean spacing
+  const bracketSize = 65;      // Length of bracket lines
+  const bracketThickness = 10; // Bold elegant stroke thickness
+  const bracketRadius = cardRadius + bracketOffset;
+
+  ctx.lineWidth = bracketThickness;
+  ctx.lineCap = 'round';
+
+  // 1. Top-Left Bracket (Red/Rose)
+  ctx.strokeStyle = '#ef4444'; // red-500
+  ctx.beginPath();
+  ctx.moveTo(cardX - bracketOffset + bracketSize, cardY - bracketOffset);
+  ctx.arcTo(cardX - bracketOffset, cardY - bracketOffset, cardX - bracketOffset, cardY - bracketOffset + bracketSize, bracketRadius);
+  ctx.lineTo(cardX - bracketOffset, cardY - bracketOffset + bracketSize);
+  ctx.stroke();
+
+  // 2. Top-Right Bracket (Blue)
+  ctx.strokeStyle = '#3b82f6'; // blue-500
+  ctx.beginPath();
+  ctx.moveTo(cardX + cardWidth + bracketOffset - bracketSize, cardY - bracketOffset);
+  ctx.arcTo(cardX + cardWidth + bracketOffset, cardY - bracketOffset, cardX + cardWidth + bracketOffset, cardY - bracketOffset + bracketSize, bracketRadius);
+  ctx.lineTo(cardX + cardWidth + bracketOffset, cardY - bracketOffset + bracketSize);
+  ctx.stroke();
+
+  // 3. Bottom-Left Bracket (Amber/Yellow)
+  ctx.strokeStyle = '#f59e0b'; // amber-500
+  ctx.beginPath();
+  ctx.moveTo(cardX - bracketOffset + bracketSize, cardY + cardHeight + bracketOffset);
+  ctx.arcTo(cardX - bracketOffset, cardY + cardHeight + bracketOffset, cardX - bracketOffset, cardY + cardHeight + bracketOffset - bracketSize, bracketRadius);
+  ctx.lineTo(cardX - bracketOffset, cardY + cardHeight + bracketOffset - bracketSize);
+  ctx.stroke();
+
+  // 4. Bottom-Right Bracket (Emerald Green - Website Theme!)
+  ctx.strokeStyle = '#10b981'; // emerald-500
+  ctx.beginPath();
+  ctx.moveTo(cardX + cardWidth + bracketOffset - bracketSize, cardY + cardHeight + bracketOffset);
+  ctx.arcTo(cardX + cardWidth + bracketOffset, cardY + cardHeight + bracketOffset, cardX + cardWidth + bracketOffset, cardY + cardHeight + bracketOffset - bracketSize, bracketRadius);
+  ctx.lineTo(cardX + cardWidth + bracketOffset, cardY + cardHeight + bracketOffset - bracketSize);
+  ctx.stroke();
+
   // 6. Draw QR Code Image Inside Card
   const qrImg = new Image();
   qrImg.src = qrDataUrl;

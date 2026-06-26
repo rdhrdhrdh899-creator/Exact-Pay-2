@@ -25,6 +25,50 @@ export default function App() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [scrollProgress, setScrollProgress] = useState(0);
 
+  // Typing effect phrases
+  const phrases = [
+    "Payment Link Generator",
+    "Instant UPI QR Code",
+    "No-Setup Merchant QR",
+    "Seamless Business Pay"
+  ];
+
+  const [currentPhraseIndex, setCurrentPhraseIndex] = useState(0);
+  const [typedText, setTypedText] = useState('');
+  const [isDeleting, setIsDeleting] = useState(false);
+
+  useEffect(() => {
+    let timer: NodeJS.Timeout;
+    const currentFullText = phrases[currentPhraseIndex];
+
+    if (!isDeleting) {
+      // Typing mode
+      if (typedText !== currentFullText) {
+        timer = setTimeout(() => {
+          setTypedText(currentFullText.slice(0, typedText.length + 1));
+        }, 80);
+      } else {
+        // Finished typing, wait then delete
+        timer = setTimeout(() => {
+          setIsDeleting(true);
+        }, 1800);
+      }
+    } else {
+      // Deleting mode
+      if (typedText !== '') {
+        timer = setTimeout(() => {
+          setTypedText(currentFullText.slice(0, typedText.length - 1));
+        }, 35);
+      } else {
+        // Finished deleting, shift index
+        setIsDeleting(false);
+        setCurrentPhraseIndex((prev) => (prev + 1) % phrases.length);
+      }
+    }
+
+    return () => clearTimeout(timer);
+  }, [typedText, isDeleting, currentPhraseIndex]);
+
   // Track scroll progress to update progress line at top of page
   useEffect(() => {
     const handleScroll = () => {
@@ -210,11 +254,12 @@ export default function App() {
             <ShieldCheck className="w-3.5 h-3.5" />
             <span>No Signup • No Commissions • 100% Secure</span>
           </div>
-          <h1 className="text-4xl sm:text-5xl md:text-6xl font-display font-extrabold text-slate-900 dark:text-white tracking-tight leading-tight">
+          <h1 className="text-4xl sm:text-5xl md:text-6xl font-display font-extrabold text-slate-900 dark:text-white tracking-tight leading-tight min-h-[96px] sm:min-h-[120px] md:min-h-[144px]">
             Free UPI QR Code & <br className="hidden sm:inline" />
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-500 via-teal-500 to-emerald-600 dark:from-emerald-400 dark:to-teal-500">
-              Payment Link Generator
+              {typedText}
             </span>
+            <span className="inline-block ml-1 text-emerald-500 dark:text-emerald-400 animate-pulse">|</span>
           </h1>
           <p className="mt-6 text-slate-600 dark:text-slate-400 text-lg md:text-xl max-w-2xl mx-auto font-light leading-relaxed">
             Instantly generate scannable digital payment badges and direct links. Perfect for merchants, freelancers, and small businesses.

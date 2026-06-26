@@ -132,6 +132,12 @@ export default function QRResult({ activeTab, formData, isValid }: QRResultProps
 
         {/* The Scannable QR Frame */}
         <div className="relative w-full max-w-[260px] aspect-square bg-white rounded-2xl p-4 shadow-lg flex items-center justify-center transition-all duration-300 hover:scale-[1.02]">
+          {/* Physiological Corner Brackets (Red, Blue, Yellow, and website theme Emerald) */}
+          <div className="absolute -top-1.5 -left-1.5 w-8 h-8 border-t-[3.5px] border-l-[3.5px] border-red-500 rounded-tl-xl pointer-events-none" />
+          <div className="absolute -top-1.5 -right-1.5 w-8 h-8 border-t-[3.5px] border-r-[3.5px] border-blue-500 rounded-tr-xl pointer-events-none" />
+          <div className="absolute -bottom-1.5 -left-1.5 w-8 h-8 border-b-[3.5px] border-l-[3.5px] border-amber-500 rounded-bl-xl pointer-events-none" />
+          <div className="absolute -bottom-1.5 -right-1.5 w-8 h-8 border-b-[3.5px] border-r-[3.5px] border-emerald-500 rounded-br-xl pointer-events-none" />
+
           {isValid && qrBase64 ? (
             <img
               src={qrBase64}
