@@ -156,13 +156,61 @@ export default function App() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 py-4 flex items-center justify-between">
           
           {/* Brand Logo with gradient icon and Exact Pay title */}
-          <a href="#" className="flex items-center gap-3 group">
-            <div className="w-11 h-11 rounded-2xl bg-gradient-to-tr from-emerald-500 to-teal-600 flex items-center justify-center text-white shadow-md shadow-emerald-500/20 transform group-hover:scale-105 transition-all duration-300">
-              <span className="font-display font-extrabold text-xl tracking-tighter">EP</span>
+          <a href="#" className="flex items-center gap-3.5 group">
+            <div className="relative w-12 h-12 transform group-hover:scale-105 transition-all duration-300 flex items-center justify-center">
+              <svg 
+                viewBox="0 0 100 100" 
+                className="w-full h-full text-emerald-600 dark:text-emerald-400 fill-none stroke-current"
+                strokeWidth="5.5"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
+                {/* QR-style Outer frame with elegant gaps */}
+                <path d="M 32,12 H 18 A 6,6 0 0,0 12,18 V 32" />
+                <path d="M 68,12 H 82 A 6,6 0 0,1 88,18 V 32" />
+                <path d="M 12,68 V 82 A 6,6 0 0,0 18,88 H 32" />
+                <path d="M 88,68 V 82 A 6,6 0 0,1 82,88 H 68" />
+
+                {/* Finder Patterns (Top-Left, Top-Right, Bottom-Left) */}
+                <rect x="20" y="20" width="16" height="16" rx="3.5" strokeWidth="5" />
+                <rect x="25" y="25" width="6" height="6" rx="1" fill="currentColor" stroke="none" />
+                
+                <rect x="64" y="20" width="16" height="16" rx="3.5" strokeWidth="5" />
+                <rect x="69" y="25" width="6" height="6" rx="1" fill="currentColor" stroke="none" />
+
+                <rect x="20" y="64" width="16" height="16" rx="3.5" strokeWidth="5" />
+                <rect x="25" y="69" width="6" height="6" rx="1" fill="currentColor" stroke="none" />
+
+                {/* Center Badge with Checkmark + Upward Arrow (The Exact Pay Emblem) */}
+                <circle cx="50" cy="50" r="17" className="stroke-teal-600 dark:stroke-teal-400 fill-white dark:fill-slate-950" strokeWidth="4.5" />
+                {/* The Checkmark that extends into an Arrow Head */}
+                <path 
+                  d="M 42,50 L 47,55 L 56,43" 
+                  className="stroke-emerald-500 dark:stroke-emerald-400" 
+                  strokeWidth="5" 
+                />
+                {/* Arrow-head tip on the right side of the checkmark */}
+                <path 
+                  d="M 50,43 H 56 V 49" 
+                  className="stroke-emerald-500 dark:stroke-emerald-400" 
+                  strokeWidth="4.5" 
+                />
+              </svg>
             </div>
-            <span className="font-display font-extrabold text-2xl tracking-tight text-slate-900 dark:text-white">
-              Exact <span className="text-emerald-500">Pay</span>
-            </span>
+            
+            <div className="flex flex-col">
+              <div className="flex items-center gap-1.5">
+                <span className="font-display font-black text-xl tracking-tight text-slate-900 dark:text-white leading-none">
+                  EXACT
+                </span>
+                <span className="font-display font-black text-xl tracking-tight text-emerald-500 dark:text-emerald-400 leading-none">
+                  PAY
+                </span>
+              </div>
+              <span className="text-[8.5px] font-bold text-slate-400 dark:text-slate-500 tracking-wider uppercase mt-1 leading-none">
+                Secure QR & Payments
+              </span>
+            </div>
           </a>
 
           {/* Navigation Links (Desktop) */}

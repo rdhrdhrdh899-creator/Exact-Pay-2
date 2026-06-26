@@ -139,12 +139,32 @@ export default function QRResult({ activeTab, formData, isValid }: QRResultProps
           <div className="absolute -bottom-1.5 -right-1.5 w-8 h-8 border-b-[3.5px] border-r-[3.5px] border-emerald-500 rounded-br-xl pointer-events-none" />
 
           {isValid && qrBase64 ? (
-            <img
-              src={qrBase64}
-              alt="Live UPI QR Code"
-              className="w-full h-full object-contain pointer-events-none select-none"
-              referrerPolicy="no-referrer"
-            />
+            <div className="relative w-full h-full flex items-center justify-center overflow-hidden rounded-lg">
+              <img
+                src={qrBase64}
+                alt="Live UPI QR Code"
+                className="w-full h-full object-contain pointer-events-none select-none relative z-10"
+                referrerPolicy="no-referrer"
+              />
+              
+              {/* Interactive Laser Scanning Overlay */}
+              <div className="absolute inset-0 pointer-events-none overflow-hidden rounded-lg z-20">
+                {/* Horizontal Sweeping Laser Line with emerald/teal gradient glow */}
+                <div className="absolute left-0 right-0 h-[3.5px] bg-gradient-to-r from-transparent via-emerald-400 to-transparent shadow-[0_0_12px_rgba(16,185,129,0.8),0_0_4px_rgba(16,185,129,1)] animate-scan" />
+                
+                {/* Ambient pulsating interactive scanner grid overlay */}
+                <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(16,185,129,0.03)_1px,transparent_1px)] bg-[size:10px_10px] opacity-75 pointer-events-none" />
+              </div>
+
+              {/* Dynamic blinking LIVE status badge overlay */}
+              <div className="absolute top-1.5 right-1.5 bg-slate-900/90 dark:bg-slate-950/90 backdrop-blur-xs px-2 py-0.5 rounded-md flex items-center gap-1 z-30 shadow-md border border-white/10 dark:border-slate-800/80">
+                <div className="relative flex h-1.5 w-1.5">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                  <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-emerald-500"></span>
+                </div>
+                <span className="text-[8px] font-black tracking-widest text-emerald-400 uppercase font-mono leading-none">LIVE</span>
+              </div>
+            </div>
           ) : (
             <div className="flex flex-col items-center justify-center text-slate-300 dark:text-slate-200 gap-3 text-center px-4">
               <div className="w-16 h-16 rounded-full bg-slate-50 dark:bg-slate-900 flex items-center justify-center animate-pulse">
