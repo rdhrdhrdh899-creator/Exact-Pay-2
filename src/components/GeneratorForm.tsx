@@ -96,7 +96,7 @@ export default function GeneratorForm({
                 name="upiId"
                 value={formData.upiId}
                 onChange={handleInputChange}
-                placeholder="e.g. name@okhdfcbank"
+                placeholder="e.g. 123456789@upi"
                 className={`w-full pl-11 pr-4 py-3.5 bg-slate-50 dark:bg-slate-950/40 border rounded-2xl text-slate-950 dark:text-white placeholder-slate-400 dark:placeholder-slate-600 font-mono text-sm focus:outline-none focus:ring-2 transition-all duration-300 ${
                   errors.upiId
                     ? 'border-red-500/50 focus:ring-red-500/20'
@@ -111,7 +111,7 @@ export default function GeneratorForm({
               </p>
             ) : (
               <p className="mt-2 text-[11px] text-slate-400 dark:text-slate-500">
-                Supports all handles: @okaxis, @yapl, @paytm, @icici, @upi, etc.
+                Supports all handles: @axl, @yapl, @fam, @icici, @upi, etc.
               </p>
             )}
           </div>
@@ -163,7 +163,7 @@ export default function GeneratorForm({
                   name="ifsc"
                   value={formData.ifsc || ''}
                   onChange={handleInputChange}
-                  placeholder="e.g. HDFC0001234"
+                  placeholder="e.g. SBI0001234"
                   className={`w-full pl-11 pr-4 py-3.5 bg-slate-50 dark:bg-slate-950/40 border rounded-2xl text-slate-950 dark:text-white placeholder-slate-400 dark:placeholder-slate-600 font-mono text-sm focus:outline-none focus:ring-2 transition-all duration-300 ${
                     errors.ifsc
                       ? 'border-red-500/50 focus:ring-red-500/20'
@@ -196,7 +196,7 @@ export default function GeneratorForm({
               name="payeeName"
               value={formData.payeeName}
               onChange={handleInputChange}
-              placeholder="e.g. Acme Corporation"
+              placeholder="e.g. ABC Pvt Ltd."
               className={`w-full pl-11 pr-4 py-3.5 bg-slate-50 dark:bg-slate-950/40 border rounded-2xl text-slate-950 dark:text-white placeholder-slate-400 dark:placeholder-slate-600 text-sm focus:outline-none focus:ring-2 transition-all duration-300 ${
                 errors.payeeName
                   ? 'border-red-500/50 focus:ring-red-500/20'
@@ -229,19 +229,19 @@ export default function GeneratorForm({
                 name="amount"
                 value={formData.amount}
                 onChange={handleInputChange}
-                placeholder="e.g. 500.00"
+                placeholder="e.g. ₹ 99.00"
                 className="w-full pl-11 pr-4 py-3.5 bg-slate-50 dark:bg-slate-950/40 border border-slate-200 dark:border-slate-800/80 rounded-2xl text-slate-950 dark:text-white placeholder-slate-400 dark:placeholder-slate-600 font-mono text-sm focus:outline-none focus:border-emerald-500/50 focus:ring-2 focus:ring-emerald-500/10 transition-all duration-300"
               />
             </div>
             <p className="mt-2 text-[11px] text-slate-400 dark:text-slate-500">
-              Leave blank to let customers type any amount they want.
+              Leave blank to let customers enter any amount they want.
             </p>
           </div>
 
           {/* Note */}
           <div>
             <label htmlFor="note" className="block text-xs font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500 mb-2">
-              Payment Note / Ref <span className="text-slate-400 font-normal">(Optional)</span>
+              Payment Note <span className="text-slate-400 font-normal">(Optional)</span>
             </label>
             <div className="relative">
               <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-slate-400">
@@ -253,13 +253,13 @@ export default function GeneratorForm({
                 name="note"
                 value={formData.note}
                 onChange={handleInputChange}
-                placeholder="e.g. Invoice #250"
+                placeholder="e.g. Travelling Cost by Din"
                 maxLength={25}
                 className="w-full pl-11 pr-4 py-3.5 bg-slate-50 dark:bg-slate-950/40 border border-slate-200 dark:border-slate-800/80 rounded-2xl text-slate-950 dark:text-white placeholder-slate-400 dark:placeholder-slate-600 text-sm focus:outline-none focus:border-emerald-500/50 focus:ring-2 focus:ring-emerald-500/10 transition-all duration-300"
               />
             </div>
             <p className="mt-2 text-[11px] text-slate-400 dark:text-slate-500">
-              Max 25 characters (some banking apps limit notes length).
+              Max 25 characters (as some banking apps limit notes length).
             </p>
           </div>
         </div>
