@@ -29,8 +29,8 @@ export default function App() {
   const phrases = [
     "Payment Link Generator",
     "Instant UPI QR Code",
-    "No-Setup Merchant QR",
-    "Seamless Business Pay"
+    "No Argues With Anyone",
+    "Exact Business Pay"
   ];
 
   const [currentPhraseIndex, setCurrentPhraseIndex] = useState(0);
@@ -309,7 +309,7 @@ export default function App() {
         <div className="max-w-4xl mx-auto">
           <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 text-xs font-bold uppercase tracking-wider mb-6">
             <ShieldCheck className="w-3.5 h-3.5" />
-            <span>No Signup • No Commissions • 100% Secure</span>
+            <span>No Signup • 100% Free • 100% Secure</span>
           </div>
           <h1 className="text-4xl sm:text-5xl md:text-6xl font-display font-extrabold text-slate-900 dark:text-white tracking-tight leading-tight min-h-[96px] sm:min-h-[120px] md:min-h-[144px]">
             Free UPI QR Code & <br className="hidden sm:inline" />
