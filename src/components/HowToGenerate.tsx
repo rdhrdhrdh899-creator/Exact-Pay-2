@@ -25,7 +25,7 @@ const steps: Step[] = [
     number: '03',
     icon: <Share2 className="w-6 h-6 text-emerald-500" />,
     title: 'Download & Share',
-    description: 'Instantly download your custom .jpg QR code for printing, or copy/share the clean, clickable payment link.'
+    description: 'Instantly download your custom QR code for Payment, or copy/share the clean, clickable payment link.'
   }
 ];
 
@@ -38,7 +38,7 @@ export default function HowToGenerate() {
             How to Generate in <span className="text-emerald-500">3 Simple Steps</span>
           </h2>
           <p className="mt-4 text-slate-600 dark:text-slate-400 text-lg">
-            Create completely custom digital payment points in less than thirty seconds.
+            Create completely custom digital payment points in less than 10 seconds.
           </p>
         </div>
 
