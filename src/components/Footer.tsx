@@ -91,7 +91,7 @@ export default function Footer() {
                 <li>
                   <button onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })} className="hover:text-emerald-400 transition-colors duration-200 cursor-pointer flex items-center gap-1 group">
                     <span className="w-1.5 h-1.5 rounded-full bg-emerald-500/0 group-hover:bg-emerald-500 transition-all duration-300" />
-                    <span>Generator</span>
+                    <span>Generate QR</span>
                   </button>
                 </li>
                 <li>
