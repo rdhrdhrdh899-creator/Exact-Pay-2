@@ -96,7 +96,7 @@ export function generateUpiUrl(tab: 'upi' | 'bank', data: PaymentData): string {
   return `upi://pay?${params.join('&')}`;
 }
 
-// Generate the high-resolution QR image with exact stylish background theme and "by UPIpe" text in bottom
+// Generate the high-resolution QR image with exact stylish background theme and "by Exact Pay" text in bottom
 export async function downloadStyledQR(
   tab: 'upi' | 'bank',
   data: PaymentData,
@@ -167,7 +167,7 @@ export async function downloadStyledQR(
   // Subtitle
   ctx.font = '500 24px "Inter", sans-serif';
   ctx.fillStyle = theme.id === 'minimal' ? '#64748b' : 'rgba(255, 255, 255, 0.8)';
-  ctx.fillText('SCAN TO PAY WITH ANY UPI APP', canvasWidth / 2, 135);
+  ctx.fillText('SCAN AND PAY WITH ANY UPI APP', canvasWidth / 2, 135);
 
   // 5. Draw White Card Container for the QR Code
   const cardWidth = 520;
@@ -310,10 +310,10 @@ export async function downloadStyledQR(
     ctx.fillText(`"${data.note}"`, canvasWidth / 2, extraInfoY);
   }
 
-  // 8. Draw "by UPIpe" Branding at the very bottom
+  // 8. Draw "by Exact Pay" Branding at the very bottom
   ctx.fillStyle = theme.id === 'minimal' ? '#94a3b8' : 'rgba(255, 255, 255, 0.5)';
   ctx.font = '600 20px "Space Grotesk", "Inter", sans-serif';
-  ctx.fillText('by UPIpe', canvasWidth / 2, canvasHeight - 60);
+  ctx.fillText('by Exact Pay', canvasWidth / 2, canvasHeight - 60);
 
   // 9. Export as JPG & trigger instant download
   const jpegUrl = canvas.toDataURL('image/jpeg', 0.95);
