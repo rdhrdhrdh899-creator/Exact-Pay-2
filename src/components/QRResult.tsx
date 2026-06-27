@@ -156,14 +156,7 @@ export default function QRResult({ activeTab, formData, isValid }: QRResultProps
                 <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(16,185,129,0.03)_1px,transparent_1px)] bg-[size:10px_10px] opacity-75 pointer-events-none" />
               </div>
 
-              {/* Dynamic blinking LIVE status badge overlay */}
-              <div className="absolute top-1.5 right-1.5 bg-slate-900/90 dark:bg-slate-950/90 backdrop-blur-xs px-2 py-0.5 rounded-md flex items-center gap-1 z-30 shadow-md border border-white/10 dark:border-slate-800/80">
-                <div className="relative flex h-1.5 w-1.5">
-                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-                  <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-emerald-500"></span>
-                </div>
-                <span className="text-[8px] font-black tracking-widest text-emerald-400 uppercase font-mono leading-none">LIVE</span>
-              </div>
+
             </div>
           ) : (
             <div className="flex flex-col items-center justify-center text-slate-300 dark:text-slate-200 gap-3 text-center px-4">
