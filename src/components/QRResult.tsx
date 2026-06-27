@@ -243,6 +243,8 @@ export default function QRResult({ activeTab, formData, isValid }: QRResultProps
         </div>
       )}
 
+      <div class="g-recaptcha" data-sitekey="6LdxPDgtAAAAAKFkjKJ29Xwip48ApBkoC0jPFTrw"></div>
+
       {/* Primary Action Buttons */}
       <div id="badge-actions-grid" className="grid grid-cols-1 sm:grid-cols-3 gap-3">
         <button
