@@ -200,7 +200,7 @@ export default function QRResult({ activeTab, formData, isValid }: QRResultProps
 
               {/* Dynamic Branding bottom banner */}
               <div className="mt-6 text-[10px] font-bold tracking-widest opacity-50 select-none uppercase">
-                by UPIpe
+                by Exact Pay
               </div>
             </>
           ) : (
