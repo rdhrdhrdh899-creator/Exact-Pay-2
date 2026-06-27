@@ -15,7 +15,7 @@ const features: Feature[] = [
   },
   {
     icon: <HeartHandshake className="w-6 h-6 text-emerald-500" />,
-    title: '100% Free Forever',
+    title: '100% Free & Unlimited',
     description: 'No subscriptions, no hidden convenience fees, and no feature limits. We believe financial accessibility should be free.'
   },
   {
